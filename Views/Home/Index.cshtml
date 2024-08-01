@@ -1,0 +1,22 @@
+﻿@model IEnumerable<BulkyBook.Models.Product>
+@{ViewData["Title"] = "Home Page";}
+<h1>@HttpContextAccessor.HttpContext.Session.GetString("LoginType") </h1>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-6 col-md-4 col-ls-6 ps-4 pe-4">
+                <div class="bb-listsection mb-5">
+                    <div class="bb-listImg text-center"><img src="~/images/@item.Images" title="bulk book" alt="bulk book" /></div>
+                    <div class="bb-mainhead"><h1>@item.Title</h1></div>
+                    <div class="bb-smalhead"><h3>by @item.Author</h3></div>
+                    <div class="bb-listprice">List Price: <span class="bb-pricestrike">$<span>@item.ListPrice</span></span></div>
+                    <div class="bb-lowprice">As low as: $<span>@item.Price50</span></div>
+                    <div class="bb-listDetails"><a class="btn btn-primary w-100" asp-controller="Home" asp-action="ViewBulkBookProduct_MoreDetails" asp-route-Id="@item.Id">Details</a></div>
+                </div>
+            </div>
+        }
+    </div>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,74 @@
+﻿@model IEnumerable<BulkyBook.Models.Product>
+
+<div class="row">
+    <div class="row mt-4 mb-4">
+        <div class="col col-lg-6"><h1>Product List</h1></div><div class="col col-lg-6"><a asp-controller="Admin" asp-action="CreateProductList" class="btn btn-success">Create Product List</a></div>
+    </div>
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-borderless table-striped bb-table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Isbn)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Author)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Category.Name)
+                    </th>                    
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(m => item.Title)</td>
+                        <td>@Html.DisplayFor(m => item.Isbn)</td>
+                        <td>@Html.DisplayFor(m => item.Price)</td>
+                        <td>@Html.DisplayFor(m => item.Author)</td>
+                        <td>@Html.DisplayFor(m => item.Category.Name)</td>
+                        <td>
+                            <span class="col-md-6">
+                                <a asp-controller="Admin" asp-action="EditProductList" asp-route-Id="@item.Id">
+                                    <span class="bb-btnEdit">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </span>
+                                </a>
+                            </span>
+                            <span class="col-md-6">
+                                <a asp-controller="Admin" asp-action="DeleteProductList" asp-route-Id="@item.Id">
+                                    <span class="bb-btnDelete">
+                                        <i class="bi bi-trash"></i>
+                                    </span>
+                                </a>
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="row"><span class="text-success">No Product Existing....</span></div>
+    }
+</div>
+
+<div>
+    <a asp-controller="Home" asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,67 @@
+﻿@model BulkyBook.Models.Product;
+@{
+    var imageurl = "/images/" + Model.Images;
+}
+<div class="bb-block bb-ViewBulkBookProduct_MoreDetails">
+     <div class="row">
+          <div>
+              <div class="bb-ProductMoreDetails">
+                   <form asp-action="Add_To_Cart" method="post">
+                   <input type="hidden" asp-for="@Model.Id" /> 
+                   <div class="bb-block bb-ProductMoreSectionOne">
+                        <div class="bb-left col-md-10 bb-ProductmoreSectionleft">
+                             <div class="bb-productmorehead">@Model.Title</div>
+                        <div class="bb-productmoresmallhead">by @Model.Author</div>
+                        </div>
+                        <div class="bb-left col-md-2 bb-ProductmoreSectionright">
+                        <span class="bb-CategoryName">@Model.Category.Name</span><span class="bb-listCovertype">@Model.CoverType.Name</span>
+                        </div>
+                   </div>
+                   <div class="bb-block bb-ProductMoreSectionTwo">
+                        <div class="bb-left col-md-8">
+                             <div class="bb-block bb-productmoreisbn">ISBN:@Model.Isbn</div>
+                             <div class="bb-block bb-productmorelistprice">List Price:<span class="bb-pricestrike">@Model.ListPrice</span></div>
+                             <div class="bb-block bb-productmorepricelist">
+                                  <div class="row text-center bb-pricelistsectionone">
+                                        <span class="col col-md-3">Quantity</span>
+                                        <span class="col col-md-3">1-49</span>
+                                        <span class="col col-md-3">50-99</span>
+                                        <span class="col col-md-3">100+</span>
+                                  </div>
+                                  <div class="row text-center bb-pricelistsectiontwo">
+                                        <span class="col col-md-3">Price</span>
+                                        <span class="col col-md-3">@Model.Price</span>
+                                        <span class="col col-md-3">@Model.Price50</span>
+                                        <span class="col col-md-3">@Model.Price100</span>
+                                  </div>
+                             </div>
+                             <div class="bb-block bb-productmoreCount">
+                                 <div class="row">
+                                    <div class="form-group">
+                                        <div class="bb-countselect">
+                                            <span class="col-md-1"><label>Count</label></span>
+                                            <span class="col-md-11"><input type="text" class="form-control" name="count" /><span class="text-danger"></span></span>
+                                        </div>
+                                    </div>
+                                 </div>
+                                 
+
+                             </div>
+                        </div>
+                        <div class="bb-right col-md-4">
+                             <img src="@imageurl" title="bulk book" alt="bulk book" />
+                        </div>
+                   </div>
+                   <div class="bb-block bb-ProductMoreSectionThree">
+                        <div class="col-md-6 bb-bttombtn01"><a class="btn btn-primary w-100" asp-controller="Home" asp-action="Index"> Back To List</a></div>
+                        <div class="col-md-6 bb-bttombtn02"><input type="submit" class="btn btn-success bb-btnw100" value="Add To Cart" /></div>
+                   </div>
+                   </form>
+              </div>
+          </div>
+     </div>
+</div>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

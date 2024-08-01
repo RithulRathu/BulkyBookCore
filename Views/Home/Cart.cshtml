@@ -1,0 +1,84 @@
+﻿@{
+    var totalprice = 0;
+}
+@model IEnumerable<BulkyBook.Models.Cart>
+<div class="bb-block">
+        <div class="bb-block bb-cartMaindiv">
+             <div class="bb-block bb-cartSectionOne">
+                  <span class="bb-shoppingcart"><i class="bi bi-cart"></i> Shopping Cart</span>
+                  <span class="bb-Continueshopping"><a class="btn btn-outline-primary" asp-controller="Home" asp-action="Index">Continue Shopping</a></span>
+             </div>
+             @if (Model.Count() > 0){
+                 <div class="bb-block bb-cartSectionTwo">
+                 @foreach(var item in Model) {
+                    <div class="bb-block bb-cartitemList">
+                      <span class="bb-left col-md-6">
+                          <span class="bb-cartimg"><img src="/images/@item.ProductItem.Images" width="100px" height="80px" title="bulk book" alt="bulk book" /></span>
+                          <span class="bb-cartProductinfo">
+                              <p class="bb-cartProductname">@item.ProductItem.Title</p>
+                              <p class="bb-cartProductCategories">@item.ProductItem.Category.Name</p>
+                          </span>
+                      </span>
+                      <span class="bb-left col-md-6">
+                            <span class="bb-left col-md-6 text-center bb-cartprice-count">
+                                <span class="bb-cartprice">
+                                    @if(@item.Count <= 49){
+                                            <span>@item.ProductItem.Price</span>
+                                    }
+                                    else if (@item.Count <= 99)
+                                    {
+                                            <span>@item.ProductItem.Price50</span>
+                                    }
+                                    else if (@item.Count > 99)
+                                    {
+                                            <span>@item.ProductItem.Price100</span>
+                                    }
+                                </span>
+                                <span> X </span>
+                                <span class="bb-cartcount">@item.Count</span>
+
+                            </span>
+                            <span class="bb-left col-md-6 text-center bb-cartitemupdation">
+                                    <span class="bb-cartplus"><a class="btn btn-primary" asp-controller="Home" asp-action="Cart_Count_Plus" asp-route-Id="@item.Id"><i class="bi bi-plus-lg"></i></a></span>
+                                    <span class="bb-cartminus"><a class="btn btn-primary" asp-controller="Home" asp-action="Cart_Count_Minus" asp-route-Id="@item.Id"><i class="bi bi-dash-lg"></i></a></span>
+                                    <span class="bb-cartdelete"><a class="btn btn-outline-primary" asp-controller="Home" asp-action="Cart_Count_Delete" asp-route-Id="@item.Id"><i class="bi bi-trash3-fill"></i></a></span>
+                            </span>
+                      </span>
+                    </div>
+                    <div class="bb-block bb-bottomline"></div>
+                    var totalcartPrice = @item.TotalPrice;
+                    totalprice = Convert.ToInt32(totalprice + totalcartPrice);
+                 }
+                 </div>
+                 <div class="bb-block bb-cartSectionThree">
+                      <div class="bb-block bb-totaldiv">
+                          <span class="bb-total bb-right">
+                                <span class="bb-left bb-totaltext">Total:</span><span class="bb-right bb-totalprice">@totalprice</span>
+                          </span>
+                      </div>
+                 </div>
+                 <div class="bb-block bb-cartSectionFour">
+                    @if((Model.First().RegisteredUserslist.CompanyModel.IsAuthorizesd == true) && (Model.First().RegisteredUserslist.EmailConfirmed == false))
+                    {
+                        <div class="bb-block" id="bb-authorizesdcus">
+                            <span class="col-md-6 bb-left text-danger">Email must be confirmed for authorizesd customer!</span>
+                        <span class="col-md-6 bb-right"><a class="btn btn-warning" asp-controller="Account" asp-action="VerifyEmail">Click hera to resend confirmation Email</a></span>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <span class="bb-btnsummary"><a class="btn btn-success w-100" asp-controller="Home" asp-action="Cart_Summary">Summary</a></span>
+                    }
+                 </div>
+             }
+             else
+                {
+                    <div class="bb-block p-lg-4 text-center"><h4>No Data Available</h4></div>
+             }
+        </div>
+</div>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

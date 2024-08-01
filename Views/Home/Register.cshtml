@@ -1,0 +1,103 @@
+﻿@model BulkyBook.Models.RegisterModel
+@{var loginType = HttpContextAccessor.HttpContext.Session.GetString("LoginType");}
+@if (TempData["success"] != null)
+{
+    <script>toastr.success('TempData["success"]')</script>
+}
+else
+{
+    <script>toastr.error('TempData["error"]')</script>
+}
+<div class="bb-container">
+    <form method="post" asp-action="Register">
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="bb-formouterDiv">
+            <div class="row mb-5">
+                <div class="col-md-12 bb-head"><h1>Sign Up</h1></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3"><input type="text" class="form-control" placeholder="Name" asp-for="Name" /><span asp-validation-for="Name" class="text-danger"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3"><input type="text" class="form-control" placeholder="Email" asp-for="Email"/><span asp-validation-for="Email" class="text-danger"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3"><input type="text" class="form-control" placeholder="Phone Number" asp-for="PhoneNumber"/><span asp-validation-for="PhoneNumber" class="text-danger"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3"><input type="text" class="form-control" placeholder="Street Address" asp-for="StreetAddress"/><span asp-validation-for="StreetAddress" class="text-danger"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3"><input type="text" class="form-control" placeholder="City" asp-for="City"/><span asp-validation-for="City" class="text-danger"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3"><input type="text" class="form-control" placeholder="State" asp-for="State"/><span asp-validation-for="State" class="text-danger"></span></div>
+                <div class="col-md-6 mb-3"><input type="text" class="form-control" placeholder="Postal Code" asp-for="PostalCode"/><span asp-validation-for="PostalCode" class="text-danger"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3"><input type="password" class="form-control" placeholder="Password" asp-for="Password"/><span asp-validation-for="Password" class="text-danger"></span></div>
+                <div class="col-md-6 mb-3"><input type="password" class="form-control" placeholder="Conform Password" asp-for="ConformPassword" /><span asp-validation-for="ConformPassword" class="text-danger"></span></div>
+            </div>
+            @if (loginType=="Admin")
+            {
+                <div class="row">
+                    <div class="col-md-12 mb-3">                        
+                         <label asp-for="Role" class="control-label"></label>
+                         <select class="form-control" asp-for="Role">
+                                <option value="" selected>Please select a Role</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Employee">Employee</option>
+                                <option value="CompanyCustomer">Company Customer</option>
+                         </select>                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label class="control-label">Company</label>
+                        <select class="form-control" asp-for="CompanyModelId" asp-items="@ViewBag.CompanyName"></select>
+                    </div>
+                </div>
+            }
+            else if (loginType == "Employee")
+            {
+                <div class="row">
+                    <div class="col-md-12 mb-3">                        
+                         <label asp-for="Role" class="control-label"></label>
+                         <select class="form-control" asp-for="Role">                                
+                                <option value="CompanyCustomer">Company Customer</option>
+                         </select>                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label class="control-label">Company</label>
+                        <select class="form-control" asp-for="CompanyModelId" asp-items="@ViewBag.CompanyName"></select>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="row"></div>
+            }
+            <div class="row">
+                <div class="col-md-12"><input type="submit" class="btn btn-success bb-btnw100" value="Register"/></div>
+            </div>
+        </div>
+    </form>   
+</div>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(function () {
+            var messageerror = '@ViewBag.error';
+            var messagesuccess = '@ViewBag.success';
+            if (messagesuccess.length > 0) {
+                toastr.success(messagesuccess)
+            } else if (messageerror.length > 0) {
+                toastr.error(messageerror);
+            }
+            
+        });
+    </script>
+}

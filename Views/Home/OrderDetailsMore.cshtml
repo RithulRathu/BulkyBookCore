@@ -1,0 +1,171 @@
+﻿@{
+    decimal totalAmount = 0;
+    var orderStatus = string.Empty;
+    decimal orderItemPrice = 0;
+    var loginType = HttpContextAccessor.HttpContext.Session.GetString("LoginType");
+    long totalQuantity = 0;
+}
+@model IEnumerable<BulkyBook.Models.OrderDetail>
+<div class="bb-block">
+    <form method="post" asp-action="Order_Update" >
+        <div class="bb-block bb-cartMaindiv">
+            <div class="bb-block bb-cartSectionOne">
+                <span class="bb-shoppingcart"><i class="bi bi-cart"></i> Order Summary</span>
+                <span class="bb-Continueshopping"><a class="btn btn-outline-primary" asp-controller="Home" asp-action="OrderDetails">Back To Order</a></span>
+            </div>
+            <div class="bb-block bb-cartsummarySectionTwo">
+                <div class="bb-cartsummarySectionTwoinner">
+                    <div class="col col-md-5 ps-4 pe-4">
+                        <h5 class="mb-3">PickUp Details:</h5>
+                            @if (Model.Any())
+                            {
+                            <input type="hidden" asp-for="@Model.First().Orderlist.Id" />
+                            <div class="row mb-2">
+                                <div class="col-md-3"><label class="form-label">Name</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" name="Name" asp-for="@Model.First().Orderlist.Name" /></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3"><label class="form-label">Phone</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" name="Phone" asp-for="@Model.First().Orderlist.Phone" /></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3"><label class="form-label">Email</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" name="Email" asp-for="@Model.First().Orderlist.Email" /></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3"><label class="form-label">Street Address</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" name="Address" asp-for="@Model.First().Orderlist.Address" /></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3"><label class="form-label">City</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" name="City" asp-for="@Model.First().Orderlist.City" /></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3"><label class="form-label">State</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" name="State" asp-for="@Model.First().Orderlist.State" /></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3"><label class="form-label">Postal Code</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" name="PostalCode" asp-for="@Model.First().Orderlist.PostalCode" /></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3"><label class="form-label">Order Date</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" name="OrderDate" asp-for="@Model.First().Orderlist.OrderDate" /></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3"><label class="form-label">Carrier</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" name="Carrier" asp-for="@Model.First().Orderlist.Carrier" /></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3"><label class="form-label">Tracking</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" name="Tracking" asp-for="@Model.First().Orderlist.Tracking" /></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3"><label class="form-label">Shipping Date</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" name="ShippingDate" asp-for="@Model.First().Orderlist.ShippingDate" /></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3"><label class="form-label">Transation ID</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" name="TransationID" asp-for="@Model.First().Orderlist.TransationId" /></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3"><label class="form-label">Payment Due Date</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" name="PaymentDueDate" asp-for="@Model.First().Orderlist.PaymentDueDate" /></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3"><label class="form-label">Payment Status</label></div>
+                                <div class="col-md-9"><input type="text" class="form-control" name="PaymentStatus" asp-for="@Model.First().Orderlist.PaymentStatus" /></div>
+                            </div>
+                            }
+                    </div>
+                    <div class="col col-md-3 ps-4 pe-4"></div>
+                    <div class="col col-md-4 ps-4 pe-4">
+                        <h5 class="mb-3">Order Summary:</h5>
+                        <div class="bb-block bb-ordersummaryinnerdiv">
+                            <div class="bb-block">
+                                @foreach(var item in Model)
+                                {
+                                    <div class="bb-block bb-orderitemSpan">
+                                        <div class="bb-orderitem bb-left ">                                            
+                                            <span class="bb-block bb-orderitemname">@item.Productlist.Title</span>
+                                            <span class="bb-block bb-orderitemPrice">
+                                                <h6>Price:
+                                                    @if (@item.Quantity <= 49)
+                                                    {
+                                                        @item.Productlist.Price
+                                                        orderItemPrice = @item.Productlist.Price;
+
+                                                    }
+                                                    else if (@item.Quantity <= 99)
+                                                    {
+                                                        @item.Productlist.Price50
+                                                        orderItemPrice = @item.Productlist.Price50;
+                                                    }
+                                                    else if (@item.Quantity > 99)
+                                                    {
+                                                        @item.Productlist.Price100
+                                                        orderItemPrice = @item.Productlist.Price100;
+                                                    }
+                                                </h6>
+                                            </span>
+                                            <span class="bb-block bb-orderitemquantity"><h6>Quantity:@item.Quantity</h6></span>
+                                            
+                                        </div>
+                                        @{
+                                            decimal price = @orderItemPrice * Convert.ToDecimal(@item.Quantity); 
+                                        }
+                                        <div class="bb-orderitemprice bb-right "> @price </div>
+                                    </div>
+                                    totalQuantity = (long)@item.Quantity;
+                                    totalAmount = @item.Orderlist.Amount;
+                                    orderStatus = item.Orderlist.PaymentStatus;
+                                }                                
+                            </div>
+                            <div class="bb-block">
+                                <div class="bb-block bb-orderitemtotalprice">
+                                    <span class="bb-ordertotaltext bb-left">Total:</span><span class="bb-ordertotalprice bb-right">@totalAmount</span>
+                                </div>
+                            </div>
+                        </div>
+                        @if (loginType == "Admin")
+                        {
+                            @if (orderStatus == "Pending")
+                            {
+                                <div class="bb-block"><a asp-route-amount="@totalAmount" asp-route-orderQuantity="@totalQuantity" asp-route-orderHeader_ItemId="@Model.First().Orderlist.Id" asp-action="PayNow" class="btn btn-primary w-100 mt-5">Pay Now</a></div>
+                                <div class="bb-block"><a asp-route-status="Cancel" asp-route-orderid="@Model.First().Orderlist.Id" asp-action="Order_Update" class="btn btn-danger w-100 mt-2">Cancel Order</a></div>
+                            }
+                            else if (orderStatus == "InProcess")
+                            {
+                                <div class="bb-block"><input type="submit" value="Start Processing" class="btn btn-primary w-100 mt-5" /></div>
+                                <div class="bb-block"><a asp-route-status="Cancel" asp-route-orderid="@Model.First().Orderlist.Id" asp-action="Order_Update" class="btn btn-danger w-100 mt-2">Cancel Order</a></div>
+                            }
+                            else
+                            {
+                                <div class="bb-block"></div>
+                            }
+                        }
+                        else
+                        {
+                            @if (orderStatus == "Pending")
+                            {
+                                <div class="bb-block"><a asp-route-amount="@totalAmount" asp-route-orderQuantity="@totalQuantity" asp-route-orderHeader_ItemId="@Model.First().Orderlist.Id" asp-action="PayNow" class="btn btn-primary w-100 mt-5">Pay Now</a></div>
+                                <div class="bb-block"><a asp-route-status="Cancel" asp-route-orderid="@Model.First().Orderlist.Id" asp-action="Order_Update" class="btn btn-danger w-100 mt-2">Cancel Order</a></div>
+                            }
+                            else{
+                                <div class="bb-block"><a asp-route-status="Cancel" asp-route-orderid="@Model.First().Orderlist.Id" asp-action="Order_Update" class="btn btn-danger w-100 mt-5">Cancel Order</a></div>
+
+                            }   
+                        }
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </form>
+</div>
+<script>
+
+</script>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,23 @@
+﻿@model BulkyBook.Models.Login
+<div class="bb-logincontainer">
+<form asp-action="Login" method="post">
+    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+    <div class="bb-formouterDiv">
+            <div class="row mb-4"><h1 class="text-center">Sign In</h1></div>
+        <div class="row">
+            <div class="col-md-12 mb-4"><input type="text" class="form-control" placeholder="Name" asp-for="UserName" /><span asp-validation-for="UserName" class="text-danger"></span></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-4"><input type="password" class="form-control" placeholder="Password" asp-for="Password" /><span asp-validation-for="Password" class="text-danger"></span></div>
+            @if (ViewBag.LogInMsg != null)
+            {
+                <div class="text-danger">@ViewBag.LogInMsg</div>
+            }
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12"><input type="submit" class="btn btn-success bb-btnw100" value="Login" /></div>
+        </div>
+    </div>
+</form>
+</div>

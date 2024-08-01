@@ -1,0 +1,141 @@
+﻿@model IEnumerable<BulkyBook.Models.OrderHeader>
+@{
+    PaginatedList pager = new PaginatedList();
+    int pageNo = 0;
+    if(ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+<div class="bb-block bb-ordercontainer">
+    <div class="bb-block bb-orederListTop mb-4">
+         <div class="bb-left col-md-6"><h2>Order's List</h2></div>
+         <div class="bb-right col-md-6">
+              <div class="bb-right w-100">
+                   <a class="btn bb-InProcess" asp-action="OrderDetails" asp-route-status="InProcess">In Process</a>
+                   <a class="btn bb-PaymentPending" asp-action="OrderDetails" asp-route-status="Pending">Payment Pending</a>
+                   <a class="btn bb-Completed" asp-action="OrderDetails" asp-route-status="Completed">Completed</a>
+                   <a class="btn bb-Rejected" asp-action="OrderDetails" asp-route-status="Cancel">Rejected</a>
+                   <a class="btn bb-All" asp-action="OrderDetails">All</a>
+              </div>
+         </div>
+    </div>
+    <div class="bb-block">
+        <div class="bb-left">
+            <select id="itemCountDropdown">
+                @foreach (var value in ViewBag.DropDownValues)
+                {
+                    <option value="@value">@value</option>
+                }
+            </select>
+        </div>
+        <div class="bb-right">
+            <nav aria-label="Page navigation example">
+                @if (pager.TotalPages > 0)
+                {
+                    <ul class="pagination">
+                        @if (pager.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Home" asp-action="OrderDetails" asp-route-pg="1">First</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Home" asp-action="OrderDetails" asp-route-pg="@(pager.CurrentPage - 1)">Previous</a>
+                            </li>
+                        }
+                        @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+                        {
+                            <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                                <a class="page-link" asp-controller="Home" asp-action="OrderDetails" asp-route-pg="@pge">@pge</a>
+                            </li>
+                        }
+                        @if (pager.CurrentPage < pager.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Home" asp-action="OrderDetails" asp-route-pg="@(pager.CurrentPage + 1)">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Home" asp-action="OrderDetails" asp-route-pg="@(pager.TotalPages)">Last</a>
+                            </li>
+                        }
+                    </ul>
+                }
+
+            </nav>
+        </div>        
+    </div>
+    <div class="bb-block bb-ordertableDiv">
+         <table class="table table-bordered table-striped text-center">
+               <tr>
+                   <th>Id</th>
+                   <th>Name</th>
+                   <th>Phone Number</th>
+                   <th>Email</th>
+                   <th>Order Status</th>
+                   <th>Amount</th>
+                   <th></th>
+               </tr>
+               @if (Model.Count() > 0){
+                   foreach(var item in Model){
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>@item.Phone</td>
+                            <td>@item.Email</td>
+                            <td>@item.PaymentStatus</td>
+                            <td>@item.Amount</td>
+                            <td>
+                                <a asp-action="OrderDetailsMore" asp-route-Id="@item.Id">
+                                    <span class="bb-btnEdit w-100 text-center">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </span>
+                                </a>
+                            </td>
+                        </tr>
+                   }                   
+               }else{
+                   <tr>
+                       <td colspan="7">No Data Available</td>
+                   </tr>
+               }
+
+         </table>
+    </div>
+    <div class="bb-block">
+        <div class="bb-right">
+            <nav aria-label="Page navigation example">
+                @if (pager.TotalPages > 0)
+                {
+                    <ul class="pagination">
+                        @if (pager.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Home" asp-action="OrderDetails" asp-route-pg="1">First</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Home" asp-action="OrderDetails" asp-route-pg="@(pager.CurrentPage - 1)">Previous</a>
+                            </li>
+                        }
+                        @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+                        {
+                            <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                                <a class="page-link" asp-controller="Home" asp-action="OrderDetails" asp-route-pg="@pge">@pge</a>
+                            </li>
+                        }
+                        @if (pager.CurrentPage < pager.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Home" asp-action="OrderDetails" asp-route-pg="@(pager.CurrentPage + 1)">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Home" asp-action="OrderDetails" asp-route-pg="@(pager.TotalPages)">Last</a>
+                            </li>
+                        }
+                    </ul>
+                }
+
+            </nav>
+        </div>
+    </div>
+</div>

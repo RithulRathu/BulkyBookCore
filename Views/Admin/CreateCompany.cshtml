@@ -1,0 +1,56 @@
+﻿@model BulkyBook.Models.CompanyModel
+<div class="container">
+    <form method="post" asp-action="CreateCompany">
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="row  mt-4">
+            <div class="col-md-3">@Html.DisplayNameFor(x => x.Name)</div>
+            <div class="col-md-9"><input type="text" class="form-control" asp-for="Name" /><span class="text-danger" asp-validation-for="Name"></span></div>
+        </div>
+        <div class="row  mt-4">
+            <div class="col-md-3">@Html.DisplayNameFor(x => x.StreetAddress)</div>
+            <div class="col-md-9"><input type="text" class="form-control" asp-for="StreetAddress" /><span class="text-danger" asp-validation-for="StreetAddress"></span></div>
+        </div>
+        <div class="row  mt-4">
+            <div class="col-md-3">@Html.DisplayNameFor(x => x.City)</div>
+            <div class="col-md-9"><input type="text" class="form-control" asp-for="City" /><span class="text-danger" asp-validation-for="City"></span></div>
+        </div>
+        <div class="row  mt-4">
+            <div class="col-md-3">@Html.DisplayNameFor(x => x.PostalCode)</div>
+            <div class="col-md-9"><input type="text" class="form-control" asp-for="PostalCode" /><span class="text-danger" asp-validation-for="PostalCode"></span></div>
+        </div>
+        <div class="row  mt-4">
+            <div class="col-md-3">@Html.DisplayNameFor(x => x.State)</div>
+            <div class="col-md-9"><input type="text" class="form-control" asp-for="State" /><span class="text-danger" asp-validation-for="State"></span></div>
+        </div>
+        <div class="row  mt-4">
+            <div class="col-md-3">@Html.DisplayNameFor(x => x.Country)</div>
+            <div class="col-md-9"><input type="text" class="form-control" asp-for="Country" /><span class="text-danger" asp-validation-for="Country"></span></div>
+        </div>
+        <div class="row  mt-4">
+            <div class="col-md-3">@Html.DisplayNameFor(x => x.Phone)</div>
+            <div class="col-md-9"><input type="text" class="form-control" asp-for="Phone" /><span class="text-danger" asp-validation-for="Phone"></span></div>
+        </div>
+        <div class="row  mt-4">
+            <div class="col-md-3">@Html.DisplayNameFor(x => x.IsAuthorizesd)</div>
+            <div class="col-md-9">
+                <div class="bb-companycheckbox"><input type="checkbox" class="form-check-input" asp-for="IsAuthorizesd" /><span class="text-danger" asp-validation-for="IsAuthorizesd"></span></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-9 bb-desktop-flex bb-gap-6">
+                <div class="col-md-6 mt-3">
+                    <input type="submit" class="btn btn-success w-100" value="Create" />
+                </div>
+                <div class="col-md-6 mt-3">
+                    <a class="btn btn-secondary w-100" asp-controller="Admin" asp-action="ShowCompanyList">Back to List</a>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

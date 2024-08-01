@@ -1,0 +1,8 @@
+﻿@if (TempData["Sucess"] != null)
+{
+    <script>toastr.success('@TempData["Sucess"]');</script>
+}
+else if (TempData["Error"] != null)
+{
+    <script>toastr.error('@TempData["Error"]');</script>
+}

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<BulkyBook.Models.OrderHeader>
+<div class="bb-block bb-ordercontainer">
+    <div class="bb-block bb-orederListTop mb-4">
+         <div class="bb-left col-md-6"><h2>Order's List</h2></div>
+         <div class="bb-right col-md-6">
+              <div class="bb-right w-100">
+                   <button class="btn bb-InProcess" id="InProcess">In Process</button>
+                   <button class="btn bb-PaymentPending" id="Pending">Payment Pending</button>
+                   <button class="btn bb-Completed" id="Completed">Completed</button>
+                   <button class="btn bb-Rejected" id="Cancel">Rejected</button>
+                   <button class="btn bb-All" id="All">All</button>
+              </div>
+         </div>
+    </div>   
+    <div class="bb-block bb-ordertableDiv">
+         <table class="table table-bordered table-striped text-center" id="tbllist">
+               <thead>
+                   <tr>
+                       <th>Id</th>
+                       <th>Name</th>
+                       <th>Phone Number</th>
+                       <th>Email</th>
+                       <th>Order Status</th>
+                       <th>Amount</th>
+                       <th></th>
+                   </tr>
+               </thead>
+               <tbody>
+                   
+               </tbody>
+         </table>
+    </div>    
+</div>
+
